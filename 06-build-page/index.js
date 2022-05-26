@@ -1,9 +1,16 @@
 const fs = require("fs");
 const path = require('path');
+const projectDistPath = path.join(__dirname, 'project-dist');
+
+fs.mkdir(projectDistPath, {recursive: true}, error => {
+  if (error) return console.error(error.message);
+	createHtmlFiles();
+	copyCssFiles();
+	copyAssetsFiles( __dirname, 'assets', 'project-dist//assets' );
+});
 
 
-
-let createHtmlFiles = () => {
+const createHtmlFiles = () => {
 	
 	const fileFolderDir = path.join( __dirname, 'components' );
 	const source = path.join( __dirname, 'template.html' );
@@ -39,7 +46,7 @@ let createHtmlFiles = () => {
 	});
 }
 
-let copyCssFiles = () => {
+const copyCssFiles = () => {
 	
 	const folder = path.join(__dirname, 'styles');
 	const folderBundle = path.join(__dirname, 'project-dist/style.css');
@@ -65,7 +72,7 @@ let copyCssFiles = () => {
 }
 
 
-let copyAssetsFiles = ( dirname, source, dest ) => {
+const copyAssetsFiles = ( dirname, source, dest ) => {
     const fs = require("fs");
     const path = require('path');
 
@@ -95,7 +102,3 @@ let copyAssetsFiles = ( dirname, source, dest ) => {
         })
     } )
 }
-
-createHtmlFiles();
-copyCssFiles();
-copyAssetsFiles( __dirname, 'assets', 'project-dist//assets' );
